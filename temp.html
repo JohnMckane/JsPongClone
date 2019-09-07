@@ -1,0 +1,44 @@
+<html>
+<body onload="startGame()">
+<script>
+var g = -10;
+var gameArea = {
+	canvas : document.createElement("canvas"),
+	start: function() {
+	this.canvas.width = 500;
+	this.canvas.height = 250;
+	document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+	this.context = this.canvas.getContext("2d");
+}
+}
+function resultant () {
+	fx: 0,
+	fy: 0,
+	aF: function (fxa, fya) {
+		this.fx += fxa;
+		this.fy += fya; 
+	}
+	cl: function () {
+		fx = 0;
+		fy = 0;
+	}
+	}
+var pl1 = {
+mass: 10;
+height: 100,
+width: 10,
+x: 20,
+y: 125,
+forces: new resultant,
+move: function(){
+this.forces.aF(0,-10);
+gameArea.context.drawStyle = "black";
+gameArea.context.fillRect(this.x, this.y, this.width, this.height);
+}
+}
+function startGame(){
+gameArea.start();
+pl1.draw();
+}</script>
+</body>
+</html>

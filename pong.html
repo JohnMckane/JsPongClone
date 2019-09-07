@@ -1,0 +1,215 @@
+<html>
+<body onload="play()" onkeypress>
+
+<script>
+var gameArea = {
+canvas: document.createElement("canvas"),
+arnu: 0,
+startGame: function(){
+this.context = this.canvas.getContext("2d");
+this.canvas.width = 1200;
+this.canvas.height = 400;
+
+this.map = [[0,0,10,400], [0,0,10,400]];
+document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+}
+}
+function gameObject(xp,yp,wi,he,mass, colour, isPhysicsObject){
+this.ipo = isPhysicsObject;
+this.x = xp;
+this.y = yp;
+this.w = wi;
+this.h = he;
+this.m = mass;
+this.c = colour;
+this.pp = [0,0];
+this.mapNu = gameArea.arnu;
+gameArea.arnu++;
+this.draw = function(){
+if(this.ipo){
+gameArea.map[this.mapNu] =[this.x,this.y,this.w,this.h];
+}
+gameArea.context.fillStyle = this.c;
+gameArea.context.fillRect(this.x, this.y, this.w, this.h);
+}
+this.fy = 0;
+this.vy = 0;
+this.fx = 0;
+this.vx = 0;
+this.move = function () {
+this.fx=0;
+this.fy = 0;
+if (p1y === 87) {
+	this.fy -=20;
+}else if (p1y === 83) {
+	this.fy+=20;
+}
+if (p1x === 65) {
+	this.fx -=20;
+}else if (p1x === 68) {
+	this.fx+=20;
+}
+this.fy += 10*this.m;
+this.vy += this.fy/this.m;
+this.vx += this.fx/this.m;
+
+for (j = 0; j < gameArea.map.length;j++) {
+	if (this.mapNu !== j) {
+			
+			if (this.vy < 0) {
+	if (this.x + this.w < gameArea.map[j][0] + gameArea.map[j][2]) {
+				var xupLim = this.x + this.w;
+			}else {
+				var xupLim = gameArea.map[j][0] + gameArea.map[j][2];
+			}
+			if (this.x + this.vx> gameArea.map[j][0]) {
+				var xlowLim = this.x;
+			}else {
+				var xlowLim = gameArea.map[j][0];
+			}
+
+			if (this.y + this.h < gameArea.map[j][1] + gameArea.map[j][3]) {
+				var yupLim = this.y + this.h;
+			}else {
+				var yupLim = gameArea.map[j][1] + gameArea.map[j][3];
+			}
+			if (this.y + this.vy> gameArea.map[j][1]) {
+				var ylowLim = this.y + this.vy;
+			}else {
+				var ylowLim = gameArea.map[j][1];
+			}
+			if (xlowLim <= xupLim && ylowLim <= yupLim) {
+			var collide = true;
+				break;
+			}else {
+			
+				var collide = false;
+				}
+			}else {
+if (this.vx > 0) {
+	
+	if (this.x + this.w + this.vx < gameArea.map[j][0] + gameArea.map[j][2]) {
+				var xupLim = this.x + this.w + this.vx;
+			}else {
+				var xupLim = gameArea.map[j][0] + gameArea.map[j][2];
+			}
+			if (this.x  > gameArea.map[j][0]) {
+				var xlowLim = this.x;
+			}else {
+				var xlowLim = gameArea.map[j][0];
+			}
+			}
+				if (this.x + this.w < gameArea.map[j][0] + gameArea.map[j][2]) {
+				var xupLim = this.x + this.w;
+			}else {
+				var xupLim = gameArea.map[j][0] + gameArea.map[j][2];
+			}
+			if (this.x + this.vx> gameArea.map[j][0]) {
+				var xlowLim = this.x + this.vx;
+			}else {
+				var xlowLim = gameArea.map[j][0];
+			}
+			}
+			if (this.y + this.h + this.vy < gameArea.map[j][1] + gameArea.map[j][3]) {
+				var yupLim = this.y + this.h + this.vy;
+			}else {
+				var yupLim = gameArea.map[j][1] + gameArea.map[j][3];
+			}
+			if (this.y> gameArea.map[j][1]) {
+				var ylowLim = this.y;
+			}else {
+				var ylowLim = gameArea.map[j][1];
+			}
+				if (xlowLim <= xupLim && ylowLim <= yupLim) {
+			var collide = true;
+				break;
+			}else {
+			
+				var collide = false;
+				}
+			}
+
+			}
+
+			}
+			
+			
+			
+			
+
+if (!(collide)) {
+
+	this.y += this.vy;
+	this.x+= this.vx;
+}else {
+if (this.vy > 0 && gameArea.map[j][1]>this.y) {
+	this.y = gameArea.map[j][1] - this.h;
+	this.vy = 4-this.vy+this.vy/5;
+this.x+= this.vx -4;
+}else if (this.vy < 0 && gameArea.map[j][1]>this.y) {
+if (this.vx>0) {
+	this.vx-=4
+}else if (this.vx<0) {
+	this.vx+=4;
+}
+this.x+= this.vx;
+	this.y += this.vy;
+}else if (this.vy < 0 && gameArea.map[j][1]<this.y) {
+this.y = gameArea.map[j][1]+ gameArea.map[j][3];
+	this.vy = 0-this.vy;
+	
+}else {
+	this.y+=this.vy;
+}
+if (this.y > gameArea.map[j][1] && this.vx < 0 && gameArea.map[j][0] + gameArea.map[j][2] < this.x) {
+	this.vx = -this.vx;
+	this.x =  gameArea.map[j][0] + gameArea.map[j][2];
+}else {
+	
+}
+	
+	
+}
+}
+}
+
+var p1y = 0;
+var p1x = 0;
+var p1 = new gameObject(40,40,20,40,1,"white",true);
+var inp = document.addEventListener("keydown", function (event) {
+	if (((event.keyCode || event.which) === 83 )||((event.keyCode || event.which) === 87)) {
+		p1y = (event.keyCode || event.which);
+	}else if (((event.keyCode || event.which) === 65 )||((event.keyCode || event.which) === 68)) {
+		p1x = event.keyCode;
+		}
+});
+var inp2 = document.addEventListener("keyup", function (event) {
+	 var d = event.keyCode || event.which;
+	 if (p1y === d && (p1y === 83 || p1y ===  87)) {
+	p1y = 0;
+	} if (p1x === d && (p1x === 65 || p1y ===  68)) {
+	p1x = 0;
+	}
+});
+
+var gameLoop = function () {
+	bg.draw();
+		roof.draw();
+	floor.draw();
+	wall1.draw();
+	p1.move();
+	p1.draw();
+
+}
+
+var play = function(){
+gameArea.startGame();
+bg = new gameObject(0,0,1200,400,0, "black",false);
+floor = new gameObject(0,390,1200,10,0,"green",true);
+roof = new gameObject(0,0,1200,10,0,"green",true);
+wall1 = new gameObject(0,0,10,400,"green",true);
+window.setInterval(gameLoop, 500);
+}
+</script>
+</body>
+</html>

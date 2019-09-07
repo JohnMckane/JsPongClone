@@ -1,0 +1,30 @@
+<html>
+<body onload="gameArea.startGame()">
+<script>
+var gameArea = {
+canvas: document.createElement("canvas"),
+startGame: function(){
+this.canvas.width = 300;
+this.canvas.height = 100;
+document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+this.context = this.canvas.getContext("2d");
+
+}
+
+}
+function gameObject(xp,yp,width,height,mass, colour){
+this.x = xp;
+this.y = yp;
+this.w = width;
+this.m = mass;
+this.c = colour;
+this.draw = function(){
+gameArea.context.fillStyle = this.c;
+gameArea.context.fillRect(this.x, this.y, this.w, this.h);
+}
+}
+bg = new gameObject(0, 0, 100, 300, 0, "black");
+setInterval(bg.draw(), 20);
+</script>
+</body>
+</html>
